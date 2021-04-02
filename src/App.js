@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.scss";
 import Masters from "./components/Masters/Masters.js";
 import MastersForm from "./components/MastersForm/MastersForm.js";
+import MastersContext from './context/MastersContext.js';
 
 const mockData = [
   {
@@ -48,7 +49,9 @@ function App() {
         </header>
         <MastersForm onCreate={createMaster} />
         <br />
-        <Masters masters={masters} onRemove={removeMaster} />
+        <MastersContext.Provider value={{removeMaster}}>
+          <Masters masters={masters} />
+      </MastersContext.Provider>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import "./Masters.scss";
 
 const b = bem("Masters");
 
-export default function Masters({ masters, onRemove }) {
+export default function Masters({ masters}) {
   return (
     <div className={b()}>
       {masters.map((item) => (
@@ -12,7 +12,6 @@ export default function Masters({ masters, onRemove }) {
           className={b("item")}
           key={item.id}
           master={item}
-          onRemove={() => onRemove(item.id)}
         />
       ))}
     </div>
