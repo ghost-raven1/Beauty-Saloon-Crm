@@ -7,7 +7,7 @@ import MastersContext from '../../context/MastersContext';
 const b = bem("Master");
 
 export default function Master({ master, className}) {
-  const { id, photo, name, position } = master;
+  const { id, photo, fullName, position } = master;
   const _className = cn(b(), className);
   const _photo =
     photo ||
@@ -20,7 +20,7 @@ export default function Master({ master, className}) {
       <div className={b("photo")}>
         <img src={_photo} />
       </div>
-      <div className={b("name")}>{name}</div>
+      <div className={b("name")}>{fullName}</div>
       <div className={b("position")}>{position}</div>
 
       <button onClick={() => removeMaster(id)}>X</button>

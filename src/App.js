@@ -1,39 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.scss";
 import Masters from "./components/Masters/Masters.js";
 import MastersForm from "./components/MastersForm/MastersForm.js";
 import MastersContext from './context/MastersContext.js';
-
-const mockData = [
-  {
-    id: 1,
-    name: "Краснова Ирина",
-    position: "Мастер ногтевого сервиса",
-    photo:
-      "https://www.wallpapersdsc.net/wp-content/uploads/2020/04/Anna-Polina-Wallpapers-pack.jpg",
-  },
-  {
-    id: 2,
-    name: "Краснова Анна",
-    position: "Мастер ногтевого сервиса",
-    photo:
-      "https://www.wallpapersdsc.net/wp-content/uploads/2020/04/Anna-Polina-Wallpapers-pack.jpg",
-  },
-  {
-    id: 3,
-    name: "Журавлева Анна",
-    position: "Мастер ногтевого сервиса",
-    photo:
-      "https://www.wallpapersdsc.net/wp-content/uploads/2020/04/Anna-Polina-Wallpapers-pack.jpg",
-  },
-];
+import ApiService from './api/api-service';
 
 function App() {
-  const [masters, setMasters] = useState(mockData);
+  const [masters, setMasters] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const masters = await ApiService.getMasters();
+      setMasters(masters);
+    }
+    fetchData();
+  }, []);
 
   function createMaster(master) {
-    console.log(master);
-    setMasters(masters.concat([master]));
+    const { id } = masters[masters.length - 1].id;
+    setMasters(masters.concat({...master, id: id + 1 }));
     //setMasters([...masters, master]);
   }
 
@@ -50,7 +35,8 @@ function App() {
         <MastersForm onCreate={createMaster} />
         <br />
         <MastersContext.Provider value={{removeMaster}}>
-          <Masters masters={masters} />
+          {masters.length === 0 ? <p>Нет данных о мастерах...</p> : 
+          <Masters masters={masters} />}
       </MastersContext.Provider>
       </div>
     </div>
